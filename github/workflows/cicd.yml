@@ -1,0 +1,15 @@
+name: Deploy Node Application
+
+on: 
+  push:
+    branches:
+     -mern-ec2-docker
+
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source     
+      users: action/checkout@v4
+      -name: Login to docker hub
+      run: docker login -s
