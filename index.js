@@ -26,34 +26,6 @@ app.use(cookieParser())
 
 
 
-import express from "express";
-import mongoose from "mongoose";
-import cors from 'cors'
-import bodyParser from "body-parser";
-import path from "path"
-
-import cookieParser from "cookie-parser";
-
-
-import authRouter from "./routes/authRouter.js"
-import RecPageRouter from "./routes/RecPageRouter.js"
-const PORT = process.env.PORT || 5000
-const API = 'mongodb+srv://admin:admin@cluster0.t1ju6q0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-const app = express()
-const __dirname = path.resolve()
-const buildPath = path.join(__dirname, "../recipeesfrontend/build")
-app.use(cors({
-    origin: ['http://localhost:3000'],
-    credentials: true
-}))
-
-app.use(cookieParser())
-
-
-
-
-
-
 mongoose.connect(API)
     .then(() => {
         console.log('Connected to Mongo DB')
@@ -79,11 +51,6 @@ mongoose.connect(API)
         console.error('Failed to connect to MongoDB:', error);
         process.exit(1); // Exit the process if MongoDB connection fails
     });
-
-
-
-
-
 
 
 
