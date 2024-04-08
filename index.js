@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 import authRouter from "./routes/authRouter.js"
 import RecPageRouter from "./routes/RecPageRouter.js"
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 const API = 'mongodb+srv://admin:admin@cluster0.t1ju6q0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 const app = express()
 const __dirname = path.resolve()
