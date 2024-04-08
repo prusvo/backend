@@ -35,14 +35,14 @@ mongoose.connect(API)
 
         app.use("/recipe", RecPageRouter)
         app.use(express.static(path.join(buildPath)))
-        // app.get("*", (req, res) =>{
-        //     res.sendFile(path.join(__dirname, "..frontend/build/index.html"))
-        //     const err = (err) => {
-        //         if(err){
-        //             res.status(500).send(err)
-        //         }
-        //     }
-        // })
+        app.get("*", (req, res) =>{
+            res.sendFile(path.join(__dirname, "..recipeesfrontend/build/index.html"))
+            const err = (err) => {
+                if(err){
+                    res.status(500).send(err)
+                }
+            }
+        })
         
 
         app.listen(PORT, () => {
