@@ -15,7 +15,7 @@ const app = express()
 const __dirname = path.resolve()
 const buildPath = path.join(__dirname, "../test/build")
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['*'],
     credentials: true
 }))
 
