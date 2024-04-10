@@ -35,7 +35,7 @@ mongoose.connect(API)
         app.use("/recipe", RecPageRouter)
         app.use(express.static(buildPath))
         app.get("*", (req, res) =>{
-            res.sendFile(path.join(buildPath, "index.html"), (err) => {
+            res.sendFile(path.join(buildPath, "index.htsml"), (err) => {
                 if(err){
                     console.log(err);
                     res.status(500).send("Internal Server Error");
