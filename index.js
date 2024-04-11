@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5001
 const API = 'mongodb+srv://admin:admin@cluster0.t1ju6q0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 const app = express()
 const __dirname = path.resolve()
-const buildPath = path.join(__dirname, "../recipeesfrontend/build")
+const buildPath = path.join(__dirname, "../frontend/build")
 app.use(cors({
     origin: ['http://3.71.202.234'],
     credentials: true
