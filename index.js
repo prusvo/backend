@@ -15,7 +15,7 @@ const app = express()
 const __dirname = path.resolve()
 const buildPath = path.join(__dirname, "../frontend/build")
 app.use(cors({
-    origin: ['http://3.71.202.234'],
+    origin: ['http://recipeee.c1.biz'],
     credentials: true
 }))
 
