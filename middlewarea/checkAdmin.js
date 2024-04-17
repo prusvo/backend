@@ -1,26 +1,32 @@
+// middleware/checkAdmin.js
 import jwt from 'jsonwebtoken';
 import secret from '../config.js';
 
-export default function (requiredRoles) {
+export default function checkAdmin(requiredRoles) {
     return async function (req, res, next) {
         if (req.method === 'OPTIONS') {
             return next();
         }
 
-        try {
-            const token = req.headers.authorization.split(' ')[1];
-            
-            if (!token) {
-                return res.status(403).json({ message: 'User did not sign in' });
-            }
+        const authorizationHeader = req.headers.authorization;
+        if (!authorizationHeader) {
+            return res.status(403).json({ message: 'Authorization header is missing' });
+        }
 
-            const decodedToken =  jwt.verify(token, secret.code);
+        const token = authorizationHeader.split(' ')[1];
+        if (!token) {
+            return res.status(403).json({ message: 'User did not sign in' });
+        }
+
+        try {
+            const decodedToken = jwt.verify(token, secret.code);
             const { roles } = decodedToken;
 
             if (!roles || !roles.some(role => requiredRoles.includes(role))) {
                 return res.status(403).json({ message: 'Insufficient permissions for this action' });
             }
 
+            // Якщо перевірка успішна, продовжуйте виконання наступних дій
             next();
         } catch (error) {
             console.error('Error in checkAdmin middleware:', error);
