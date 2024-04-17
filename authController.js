@@ -63,7 +63,7 @@ class authController {
     
             const token = jwt.sign(payload, secret.code, { expiresIn: '1h' });
     
-            res.cookie('token', token, { httpOnly: false, maxAge: 3600000 });
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
             return res.json({ status: true, message: 'Login successfully', token });
         } catch (error) {
             console.error(error);
