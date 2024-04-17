@@ -30,7 +30,7 @@ class authController {
     
             // Assuming roles should be an array
             // const userRole = await Role.findOne({ value: 'USER' });
-            const user = new User({ userName, password: hashPassword, roles: 'ADMIN'});
+            const user = new User({ userName, password: hashPassword, roles: 'USER'});
             await user.save();
     
             return res.json({ message: 'Registration successful' });
