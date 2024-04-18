@@ -1,11 +1,16 @@
-import Role from "./models/Role.js";
-import User from "./models/User.js";
-import bcrypt from "bcryptjs";
-import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import secret from "./config.js";
+import Role from "./models/Role.js"
 
-class AuthController {
+import User from "./models/User.js"
+import bcrypt from "bcryptjs"
+import { validationResult } from "express-validator"
+import  jwt  from "jsonwebtoken"
+import secret from "./config.js"
+// import nodemailer from 'nodemailer'
+
+
+
+
+class authController {
     async registration(req, res) {
         try {
             const errors = validationResult(req);
@@ -23,7 +28,9 @@ class AuthController {
             const salt = bcrypt.genSaltSync(7);
             const hashPassword = bcrypt.hashSync(password, salt);
     
-            const user = new User({ userName, password: hashPassword, roles: 'USER' });
+            // Assuming roles should be an array
+            // const userRole = await Role.findOne({ value: 'USER' });
+            const user = new User({ userName, password: hashPassword, roles: 'ADMIN'});
             await user.save();
     
             return res.json({ message: 'Registration successful' });
@@ -32,7 +39,6 @@ class AuthController {
             res.status(500).json({ message: 'Internal server error during registration' });
         }
     }
-
     async login(req, res) {
         try {
             const { userName, password } = req.body;
@@ -49,6 +55,7 @@ class AuthController {
                 return res.status(400).json({ message: 'Incorrect password' });
             }
     
+            // Оновлення токену для включення ролей
             const payload = {
                 userName: user.userName,
                 roles: user.roles,
@@ -65,58 +72,60 @@ class AuthController {
     }
     
     async getUsers(req, res) {
-        try {
-            const users = await User.find();
-            res.json(users);
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message: 'Error fetching users' });
+        try{
+            const users = await User.find()
+            const userRole = new Role()
+            const adminRole = new Role({value: "ADMIN"})
+            await userRole.save()
+            await adminRole.save()
+            res.json(users)
+        }catch(e){
+            console.log(e)
         }
     }
      
     async verifyUser(req, res) {
         try {
-            return res.json({ status: true, message: 'Authorized', roles: req.user.roles });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error verifying user' });
+            return res.json({status: true,message: 'Authorized', roles: req.user.roles})
+            
+        }
+        catch (error) {
+            error => {
+                res.json({message: 'User is not verify'})
+                concole.error(error)
+            }
         }
     }
-    
-    async verify(req, res, next) {
-        try {
-            const token = req.cookies.token;
-            if (!token) {
-                return res.status(403).json({ message: 'User has no token' });
+    async verify (req, res, next) {
+        try{
+            const token = req.cookies.token
+            if(!token) {
+                return res.json({message: 'User have not token'})
             } 
-            const decoded = await jwt.verify(token, secret.code);
-            req.user = decoded;
-            next();
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error verifying token' });
+            const decoced = await jwt.verify(token, secret.code)
+            next()
+        } catch(error) {
+            return res.json(error)
+        }
+        
+
+    }
+    async logoutUser (req, res) {
+        try{
+            res.clearCookie('token')
+            return res.json({status: true, message: 'SuccesLogout'})
+        } catch (err) {
+            return console.log(err)
         }
     }
-
-    async logoutUser(req, res) {
-        try {
-            res.clearCookie('token');
-            return res.json({ status: true, message: 'Successful logout' });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Error logging out user' });
-        }
-    }
-
     async getToken(req, res) {
         try {
             const token = req.cookies.token;
             res.json({ token });
-        } catch (error) {
-            console.error('Token is not defined:', error);
+        } catch (err) {
+            console.log('Token is not defined:', err);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 }
-
-export default new AuthController();
+export default new authController
