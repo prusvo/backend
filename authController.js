@@ -120,7 +120,7 @@ class authController {
     }
     async getToken(req, res) {
         try {
-            const token = req.cookies.token;
+            const token = req.cookies;
             return res.json({ token });
         } catch (err) {
             console.log('Token is not defined:', err);
