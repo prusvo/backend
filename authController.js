@@ -97,16 +97,16 @@ class authController {
         }
     }
     async verify (req, res, next) {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.json({ message: 'User does not have a token' });
+        try{
+            const token = req.cookies.token
+            if(!token) {
+                return res.json({message: 'User have not token'})
+            } 
+            const decoced = await jwt.verify(token, secret.code)
+            next()
+        } catch(error) {
+            return res.json(error)
         }
-        
-        // Перевірка, чи токен є валідним JWT
-        if (!jwt.verify(token, secret.code)) {
-            return res.status(403).json({ message: 'Invalid token' });
-        }
-        
         
 
     }
