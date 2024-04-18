@@ -97,10 +97,10 @@ class authController {
         }
     }
     async verify (req, res) {
-        const token = req.cookies.token;
+        const token = req.cookies;
         console.log(token)
         if (!token) {
-            return res.json({ message: token });
+            return res.json({ message: 'User does not have a tooken' });
         }
         
         // Перевірка, чи токен є валідним JWT
