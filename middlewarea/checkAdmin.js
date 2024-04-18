@@ -1,3 +1,4 @@
+// middleware/checkAdmin.js
 import jwt from 'jsonwebtoken';
 import secret from '../config.js';
 
@@ -7,7 +8,12 @@ export default function checkAdmin(requiredRoles) {
             return next();
         }
 
-        const token = req.cookies.token;
+        const authorizationHeader = req.headers.authorization;
+        if (!authorizationHeader) {
+            return res.status(403).json({ message: 'Authorization header is missing' });
+        }
+
+        const token = authorizationHeader.split(' ')[1];
         if (!token) {
             return res.status(403).json({ message: 'User did not sign in' });
         }
