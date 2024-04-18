@@ -99,7 +99,7 @@ class authController {
     async verify (req, res) {
         const token = req.cookies.token;
         console.log(token)
-        if (!token) {
+        if (token) {
             return res.json({ message: 'User does not have a tooken' });
         }
         
