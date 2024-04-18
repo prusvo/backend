@@ -100,7 +100,7 @@ class authController {
         const token = req.cookies.token;
         console.log(token)
         if (!token) {
-            return res.json({ message: 'User does not have a token' });
+            return res.json({ message: 'User does not have a tooken' });
         }
         
         // Перевірка, чи токен є валідним JWT
