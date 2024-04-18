@@ -121,7 +121,7 @@ class authController {
     async getToken(req, res) {
         try {
             const token = req.cookies.token;
-            res.json({ token });
+            return res.json({ token });
         } catch (err) {
             console.log('Token is not defined:', err);
             res.status(500).json({ error: 'Internal Server Error' });
