@@ -99,7 +99,7 @@ class authController {
     async verify(req, res, next) {
         const token = req.cookies.token;
         if (!token) {
-            return res.json({ message: 'User does not have a token' });
+            return res.status(403).json({ message: 'User does not have a token' });
         }
         
         try {
@@ -113,6 +113,8 @@ class authController {
             return res.status(403).json({ message: 'Invalid token' });
         }
     }
+    
+
     
     async logoutUser (req, res) {
         try{
