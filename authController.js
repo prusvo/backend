@@ -96,17 +96,20 @@ class authController {
             }
         }
     }
-    async verify(req, res) {
-        const token = req.cookies.token;
-        console.log(req.cookies); // Перевірка усіх HTTP кукі наявних у запиті
-        if (!token) {
-            return res.json({ message: 'User does not have a token' });
+    async verify(req, res, next) {
+        const authorizationHeader = req.headers.authorization;
+        if (!authorizationHeader) {
+            return res.status(403).json({ message: 'User does not have a token' });
         }
-        
-        // Перевірка, чи токен є валідним JWT
+    
+        const token = authorizationHeader.split(' ')[1];
+        if (!token) {
+            return res.status(403).json({ message: 'Invalid token' });
+        }
+    
         try {
             const decodedToken = jwt.verify(token, secret.code);
-            // Якщо перевірка успішна, продовжуйте виконання
+            req.user = decodedToken;
             next();
         } catch (error) {
             console.error(error);
