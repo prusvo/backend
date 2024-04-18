@@ -84,32 +84,32 @@ class authController {
         }
     }
      
-    async verifyUser(req, res, next) {
+    async verifyUser(req, res) {
         try {
-            return res.json({ status: true, message: 'Authorized', roles: req.user.roles });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error verifying user' });
+            return res.json({status: true,message: 'Authorized', roles: req.user.roles})
+            
+        }
+        catch (error) {
+            error => {
+                res.json({message: 'User is not verify'})
+                concole.error(error)
+            }
         }
     }
-    
-    async verify(req, res, next) {
+    async verify (req, res, next) {
         const token = req.cookies.token;
         if (!token) {
-            return res.status(403).json({ message: 'User does not have a token' });
+            return res.json({ message: 'User does not have a token' });
         }
         
-        try {
-            // Перевірка, чи токен є валідним JWT
-            const decodedToken = jwt.verify(token, secret.code);
-            req.user = decodedToken; // Зберігаємо розшифрований токен у властивості `user` об'єкта запиту
-            next(); // Перейдіть до наступного middleware
-        } catch (error) {
-            console.error(error);
+        // Перевірка, чи токен є валідним JWT
+        if (!jwt.verify(token, secret.code)) {
             return res.status(403).json({ message: 'Invalid token' });
         }
+        
+        
+
     }
-    
     async logoutUser (req, res) {
         try{
             res.clearCookie('token')
