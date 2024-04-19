@@ -15,7 +15,7 @@ router.get('/users', roleMiddleware(["ADMIN"]), controller.getUsers)
 // router.post('/forgot-password', controller.forgotPassword)
 // router.get('/verify',controller.verify, controller.verifyUser)
 router.get('/logout', controller.logoutUser)
-// router.get('/get_token', controller.getToken)
+router.get('/get_token', controller.getToken)
 router.get('/admin_panel', checkAdmin(["ADMIN"]), (req, res) => {
     res.json({message: 'you have admin privilegas'})
 })
