@@ -84,30 +84,30 @@ class authController {
         }
     }
      
-    // async verifyUser(req, res) {
-    //     try {
-    //         return res.json({status: true,message: 'Authorized', roles: req.user.roles})
+    async verifyUser(req, res) {
+        try {
+            return res.json({status: true,message: 'Authorized', roles: req.user.roles})
             
-    //     }
-    //     catch (error) {
-    //         error => {
-    //             res.json({message: 'User is not verify'})
-    //             concole.error(error)
-    //         }
-    //     }
-    // }
-    // async verify (req, res, next) {
-    //     try{
-    //         const token = req.cookies.token
-    //         if(!token) {
-    //             return res.json({message: 'User have not token'})
-    //         } 
-    //         const decoced = await jwt.verify(token, secret.code)
-    //         next()
-    //     } catch(error) {
-    //         return res.json(error)
-    //     }
-    // }
+        }
+        catch (error) {
+            error => {
+                res.json({message: 'User is not verify'})
+                concole.error(error)
+            }
+        }
+    }
+    async verify (req, res, next) {
+        try{
+            const token = req.cookies.token
+            if(!token) {
+                return res.json({message: 'User have not token'})
+            } 
+            const decoced = await jwt.verify(token, secret.code)
+            next()
+        } catch(error) {
+            return res.json(error)
+        }
+    }
     async logoutUser (req, res) {
         try{
             res.clearCookie('token')
