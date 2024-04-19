@@ -30,7 +30,7 @@ class authController {
     
             // Assuming roles should be an array
             // const userRole = await Role.findOne({ value: 'USER' });
-            const user = new User({ userName, password: hashPassword, roles: 'ADMIN'});
+            const user = new User({ userName, password: hashPassword, roles: 'USER'});
             await user.save();
     
             return res.json({ message: 'Registration successful' });
@@ -84,32 +84,30 @@ class authController {
         }
     }
      
-    async verifyUser(req, res) {
-        try {
-            return res.json({status: true,message: 'Authorized', roles: req.user.roles})
+    // async verifyUser(req, res) {
+    //     try {
+    //         return res.json({status: true,message: 'Authorized', roles: req.user.roles})
             
-        }
-        catch (error) {
-            error => {
-                res.json({message: 'User is not verify'})
-                concole.error(error)
-            }
-        }
-    }
-    async verify (req, res, next) {
-        try{
-            const token = req.cookies.token
-            if(!token) {
-                return res.json({message: 'User have not token'})
-            } 
-            const decoced = await jwt.verify(token, secret.code)
-            next()
-        } catch(error) {
-            return res.json(error)
-        }
-        
-
-    }
+    //     }
+    //     catch (error) {
+    //         error => {
+    //             res.json({message: 'User is not verify'})
+    //             concole.error(error)
+    //         }
+    //     }
+    // }
+    // async verify (req, res, next) {
+    //     try{
+    //         const token = req.cookies.token
+    //         if(!token) {
+    //             return res.json({message: 'User have not token'})
+    //         } 
+    //         const decoced = await jwt.verify(token, secret.code)
+    //         next()
+    //     } catch(error) {
+    //         return res.json(error)
+    //     }
+    // }
     async logoutUser (req, res) {
         try{
             res.clearCookie('token')
@@ -118,14 +116,14 @@ class authController {
             return console.log(err)
         }
     }
-    async getToken(req, res) {
-        try {
-            const token = req.cookies.token;
-            return res.json({ token });
-        } catch (err) {
-            console.log('Token is not defined:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    }
+    // async getToken(req, res) {
+    //     try {
+    //         const token = req.cookies.token;
+    //         return res.json({ token });
+    //     } catch (err) {
+    //         console.log('Token is not defined:', err);
+    //         res.status(500).json({ error: 'Internal Server Error' });
+    //     }
+    // }
 }
 export default new authController
