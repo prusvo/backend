@@ -20,4 +20,4 @@ router.get('/admin_panel', (req, res) => {
     res.json({message: 'you have admin privilegas'})
 })
 
-export default router1
+export default router
