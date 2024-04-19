@@ -14,7 +14,7 @@ const __dirname = path.resolve()
 const buildPath = path.join(__dirname, "../frontend/build")
 
 app.use(cors({
-    origin: ['http://18.192.42.252','http://recipeee.c1.biz', 'http://localhost:3000'],
+    origin: ['http://recipeee.c1.biz', 'http://localhost:3000'],
     credentials: true
 }))
 app.use(cookieParser())
