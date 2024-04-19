@@ -63,7 +63,7 @@ class authController {
     
             const token = jwt.sign(payload, secret.code, { expiresIn: '1h' });
     
-            res.cookie('token', token);
+            res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
             return res.json({ status: true, message: 'Login successfully', token });
         } catch (error) {
             console.error(error);
@@ -120,7 +120,7 @@ class authController {
     }
     async getToken(req, res) {
         try {
-            const token = req.cookies;
+            const token = req.cookies.token;
             return res.json({ token });
         } catch (err) {
             console.log('Token is not defined:', err);
